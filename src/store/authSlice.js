@@ -11,26 +11,23 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     signup: (state, action) => {
-      state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
     },
 
     signupFail: (state, action) => {
-      state.loading = false;
       state.error = action.payload;
     },
     login: (state, action) => {
-      state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
+      console.log('User in authslice: ', action.payload);
     },
     loginFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
     logout: (state) => {
-      state.loading = false;
       state.isAuthenticated = false;
       state.user = null;
     },

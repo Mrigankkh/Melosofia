@@ -41,7 +41,7 @@ export const signUpWithEmailPassword = async (name, email, password) => {
     await setDoc(doc(db, "users", user.uid), {
       name,
       email,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     });
 
     return user.uid;

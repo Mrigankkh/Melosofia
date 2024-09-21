@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import {signInWithEmailPassword} from '../../api/authAPI';
+import { signInWithEmailPassword } from '../../api/authAPI';
 import { login, loginFail } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchUserData } from '../../api/userAPI';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,29 +15,30 @@ const Login = () => {
     const handleLogin = async (e) => {
         try {
             e.preventDefault();
-           console.log('Trying to sign in user with email: ', email); 
-          const userId = await signInWithEmailPassword(email, password);
-          const user = fetchUserData(userId);
-          dispatch(login(user));
-          navigate('/');
+            console.log('Trying to sign in user with email: ', email); 
+            const userId = await signInWithEmailPassword(email, password);
+            const user = await fetchUserData(userId);
+            console.log('User signed in isss: ', user);
+            dispatch(login(user));
+            navigate('/');
         } catch (error) {
-          dispatch(loginFail(error));
+            dispatch(loginFail(error));
         }
-      };
+    };
+
     return (
         <Container maxWidth="sm">
             <Box mt={5}>
                 <Typography variant="h4" component="h2" gutterBottom>
                     Login
                 </Typography>
-                <form onSubmit={handleLogin} >
+                <form onSubmit={handleLogin}>
                     <Box mb={2}>
                         <TextField
                             label="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             fullWidth
-                            
                         />
                     </Box>
                     <Box mb={2}>
@@ -45,13 +47,17 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             fullWidth
-                            
                         />
                     </Box>
                     <Button type="submit" variant="contained" color="primary" fullWidth>
                         Login
                     </Button>
                 </form>
+                <Box mt={2}>
+                    <Typography variant="body2">
+                        Don't have an account? <Link href="/signup">Sign up</Link>
+                    </Typography>
+                </Box>
             </Box>
         </Container>
     );
