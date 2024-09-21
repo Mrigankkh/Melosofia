@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import Login from "../pages/Login/Login";
 import Song from "../pages/Song/Song";
 import Home from "../pages/Home/Home";
+import Signup from "../pages/Login/Signup";
 const AppRoutes = () => {
   return (
       <Routes>
@@ -13,7 +14,7 @@ const AppRoutes = () => {
         </Route>
         <Route path="/song" element={<Song song_id='1'/>} />
 
-          <Route path="/signup" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
       </Routes>

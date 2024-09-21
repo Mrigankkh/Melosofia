@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import {signInWithEmailPassword} from '../../api/authAPI';
-import { login, loginFail } from '../../features/auth/authSlice';
+import { login, loginFail } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { fetchUserData } from '../../api/userAPI';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +15,8 @@ const Login = () => {
         try {
             e.preventDefault();
            console.log('Trying to sign in user with email: ', email); 
-          const user = await signInWithEmailPassword(email, password);
+          const userId = await signInWithEmailPassword(email, password);
+          const user = fetchUserData(userId);
           dispatch(login(user));
           navigate('/');
         } catch (error) {
