@@ -1,31 +1,55 @@
-import  "firebase/firestore";
-import firebase from 'firebase/app';
+import "firebase/firestore";
+import firebase from "firebase/app";
 import { initializeApp } from "firebase/app";
-import firebaseConfig from '../config/firebaseConfig';
-import { getFirestore, collection, getDocs, query,where } from "firebase/firestore";
+import firebaseConfig from "../config/firebaseConfig";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+  setDoc,
+  doc,
+  
+} from "firebase/firestore";
 
-const app  = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-export const getInterpretationsForSong = async (songId) => {
 
-    
-    const interpretationsRef = collection(db, 'interpretations');
-    console.log('Interpretations Ref',interpretationsRef);
+const addInterpretation = async (interpretation, song_id, user_id) => {
 
-    const q = query(interpretationsRef, where('song_id', '==', '1'));
-    console.log('Query',q);
+  try {
+    console.log("Adding interpretation...");
+    await setDoc(doc(db, "interpretations"), {
+      interpretation_text: interpretation,
+      song_id: song_id,
+      user_id: user_id,
+      createdAt: new Date().toISOString(),
+    });
 
-    try {
-        const snapshot = await getDocs(q);
-        const interpretations = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log('Interpretations:', interpretations);
-        return interpretations;
-      } catch (error) {
-        console.error('Error fetching interpretations:', error);
-      }
-    
-  };
+  } catch (error) {
+    console.error("Error adding interpretation:", error);
+  }
+};
 
+const getInterpretationsForSong = async (songId) => {
+  const interpretationsRef = collection(db, "interpretations");
+  console.log("Interpretations Ref", interpretationsRef);
+
+  const q = query(interpretationsRef, where("song_id", "==", "1"));
+  console.log("Query", q);
+
+  try {
+    const snapshot = await getDocs(q);
+    const interpretations = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log("Interpretations:", interpretations);
+    return interpretations;
+  } catch (error) {
+    console.error("Error fetching interpretations:", error);
+  }
+};
+
+export { getInterpretationsForSong, addInterpretation };
