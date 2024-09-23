@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
-
+import { useSelector } from "react-redux";
+import {addInterpretation} from  '../../api/interpretationsAPI';
 const AddInterpretationModal = ({ open, onClose, onSubmit }) => {
   const [interpretation, setInterpretation] = useState('');
+  const user = useSelector((state) => state.auth.user);
 
-  const handleSubmit = () => {
-    onSubmit(interpretation); // Call the onSubmit prop with the interpretation
-    setInterpretation(''); // Clear the input
-    onClose(); // Close the modal after submitting
+  const handleSubmit = async () => {
+    await addInterpretation({ interpretation, songId: open.songId, userId: user.id });
   };
 
   return (
