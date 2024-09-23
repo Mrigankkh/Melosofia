@@ -10,7 +10,7 @@ import ProtectedRoute from "./ProtectedRoutes";
 const AppRoutes = () => {
   const protectedRoutes = [
     { path: '/', component: Home },
-    { path: '/s', component: Song },
+    { path: '/s/:song_id', component: Song },
 ];
 
   return (
