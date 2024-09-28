@@ -36,3 +36,69 @@
     transform: rotate(360deg);
   }
 }
+
+/* Authentication Pages */
+.auth-page {
+  min-height: 100vh ;
+  background-color: #000 ;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png") ;
+  display: flex ;
+  justify-content: center ;
+  align-items: center ;
+}
+
+.auth-paper {
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  background: #222 !important;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5) !important;
+  color: #fff !important;
+  backdrop-filter: blur(10px) !important;
+
+}
+
+.auth-heading {
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.auth-sub-heading {
+  color: #aaa;
+    margin-bottom: 1rem !important;
+}
+
+.auth-btn {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+
+  margin-top: 3px !important;
+  padding: 12px !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.2) !important;
+}
+
+.auth-btn:hover {
+  background-color: #ddd !important;
+
+}
+
+.auth-input {
+  color: #fff;
+}
+
+.auth-input .MuiOutlinedInput-notchedOutline {
+  border-color: #555;
+}
+
+.auth-input:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #fff;
+}
+
+.auth-input.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #fff;
+}
