@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+
+}
+
+.page {
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png") !important;
+
 }
 
 .App-logo {
@@ -41,7 +47,6 @@
 .auth-page {
   min-height: 100vh ;
   background-color: #000 ;
-  background-image: url("https://www.transparenttextures.com/patterns/stardust.png") ;
   display: flex ;
   justify-content: center ;
   align-items: center ;

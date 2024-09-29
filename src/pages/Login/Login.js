@@ -27,7 +27,7 @@ const Login = () => {
     };
 
     return (
-            <Box className= 'auth-page'>
+            <Box className= 'auth-page page'>
                 <Container maxWidth="sm">
                 <Paper
                 
