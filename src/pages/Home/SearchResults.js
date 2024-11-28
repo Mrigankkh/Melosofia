@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const SearchResults = ({ results }) => {
@@ -10,33 +10,51 @@ const SearchResults = ({ results }) => {
   };
 
   return (
-    <div>
+    <Box 
+      sx={{ 
+        maxWidth: '600px', // You can adjust this as needed
+        margin: '0 auto', 
+        padding: 2,
+        whiteSpace: 'nowrap', // Prevent wrapping of items
+      }}
+    >
       {results.length === 0 ? (
-        <Typography variant="body1">No results found.</Typography>
+        <Typography variant="body1" sx={{ color: '#fff', textAlign: 'center', mt: 2 }}>
+          No results found.
+        </Typography>
       ) : (
-        <List>
+        <List sx={{ display: 'inline-block', bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: '8px' }}>
           {results.map((song) => (
             <ListItem
               key={song.song_id}
-              id={song.song_id}
               button
-              onClick={(e) => navigate(`/s/${song.song_id}`)} // Clickable item
+              onClick={() => handleItemClick(song.song_id)} // Clickable item
               sx={{
-                borderBottom: '1px solid #ddd',
-                '&:hover': { backgroundColor: '#f5f5f5' }, // Hover effect
+                borderBottom: '1px solid rgba(255, 255, 255, 0.3)', // Softer border color
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)', // Slightly lighter on hover
+                  transform: 'scale(1.02)', // Subtle scaling effect on hover
+                  transition: 'transform 0.2s', // Smooth transition for scaling effect
+                  width: '100%', // Match the width of the container
+
+                },
+                color: '#fff', // Text color
+                fontSize: '1.2rem', // Increase font size for clarity
+                whiteSpace: 'nowrap', // Prevent wrapping of text
+                width: '100%', // Match the width of the container
+
               }}
             >
               <ListItemText
-                primary={song.title}
-                secondary={song.artist} // Optional: Display artist as secondary text
+                primary={<Typography sx={{ fontWeight: 'bold', color: '#fff', fontSize: '1.2rem' }}>{song.title}</Typography>} // Larger font for title
+                secondary={<Typography sx={{ color: '#bbb', fontSize: '1rem' }}>{song.artist}</Typography>} // Larger font for artist
               />
             </ListItem>
           ))}
         </List>
       )}
-    </div>
+    </Box>
   );
 };
 
- export default SearchResults;
-
+export default SearchResults;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { InputAdornment, InputBase, Box } from "@mui/material";
+import { InputAdornment, InputBase, Box, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import useDebounce from "../../hooks/useDebounce";
 import { fetchSongs } from "../../api/songAPI";
@@ -13,10 +13,10 @@ const Home = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [songsSearchResult, setSongsSearchResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false); // Track if a search was initiated
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const getSongsSearchResult = async (e) => {
-    if (!searchTerm.trim()) return; // Avoid empty searches
+  const getSongsSearchResult = async () => {
+    if (!searchTerm.trim()) return;
 
     setIsLoading(true);
     setHasSearched(true);
@@ -35,52 +35,90 @@ const Home = () => {
   useEffect(() => {
     if (debouncedSearchTerm) {
       console.log("Searching for: ", debouncedSearchTerm);
-      // Search for debouncedSearchTerm
+      getSongsSearchResult();
     }
   }, [debouncedSearchTerm]);
 
   return (
-    <div>
-      <h1>Welcome to Melosofia</h1>
-      <p>Music is interpretive. Search for a song to get started!</p>
-      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#000",
+        backgroundImage:
+          'url("https://www.transparenttextures.com/patterns/stardust.png")',
+        backgroundSize: "cover",
+        color: "#fff",
+        textAlign: "center",
+        padding: 0, // Remove default padding
+        margin: 0, // Remove default margin
+        width: "100%", // Full width to avoid white spaces
+      }}
+    >
+      <Typography
+        variant="h2"
+        component="h1"
+        sx={{ mb: 4, fontFamily: "Cyberpr Music", fontWeight: "bold" }}
+      >
+        Welcome to Melosofia
+      </Typography>
+      <Typography variant="h6" component="p" sx={{ mb: 4 }}>
+        Music is interpretive. Search for a song to get started!
+      </Typography>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        mb={4}
+        sx={{ width: "100%" }}
+      >
         <InputBase
           placeholder="Search…"
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              // Call your search API here
-              getSongsSearchResult(searchTerm); // Example: searchSongs(searchTerm);
+              getSongsSearchResult();
             }
           }}
           startAdornment={
             <InputAdornment position="start">
-              <SearchIcon />
+              <SearchIcon sx={{ color: "#fff" }} />
             </InputAdornment>
           }
           sx={{
             width: "50%",
-            border: "1px solid #ccc",
+            border: "1px solid #555",
             borderRadius: "4px",
-            padding: "4px 8px",
+            padding: "10px 20px",
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            "& input": {
+              color: "#fff",
+            },
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#555",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#fff",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#fff",
+            },
           }}
         />
       </Box>
-      <div>
-        {/* Show loading indicator */}
+      <div style={{width:'50%'}}>
         {isLoading && <div>Loading...</div>}
-
-        {/* Only display search results after the user has searched */}
         {!isLoading && hasSearched && songsSearchResult.length > 0 && (
           <SearchResults results={songsSearchResult} />
         )}
-
-        {/* Display message if no results were found */}
         {!isLoading && hasSearched && songsSearchResult.length === 0 && (
           <div>No results found.</div>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 
