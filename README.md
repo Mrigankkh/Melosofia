@@ -5,6 +5,9 @@
 3. Adding interpretations should let citations of lyrics
 4. Script for lyrics
 5. Upvotes for interpretations
+6. Toasts
+7. Port bakend
+8. UI enhancements
 
 
 # Getting Started with Create React App
