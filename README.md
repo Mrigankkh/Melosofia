@@ -1,3 +1,12 @@
+#TODO:
+
+1. Profile tab: User can see their info and interpretations
+2. News/ Latest Interpretations
+3. Adding interpretations should let citations of lyrics
+4. Script for lyrics
+5. Upvotes for interpretations
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
