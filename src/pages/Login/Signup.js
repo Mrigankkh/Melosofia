@@ -47,7 +47,8 @@ const Signup = () => {
       dispatch(signup(user));
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
+      console.log("Error");
+      toast.error(error.message, { position: "top-center" });
       dispatch(signupFail(error));
     }
   };

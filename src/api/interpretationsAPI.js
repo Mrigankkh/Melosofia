@@ -9,6 +9,7 @@ import {
   query,
   where,
   setDoc,
+  addDoc,
   doc,
   
 } from "firebase/firestore";
@@ -16,14 +17,16 @@ import {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const addInterpretation = async (interpretation, song_id, user_id) => {
+const addInterpretation = async (interpretation, song_id, user) => {
 
   try {
-    console.log("Adding interpretation...");
-    await setDoc(doc(db, "interpretations"), {
+  
+    console.log("Adding interpretation... Song id:", song_id);
+    await addDoc(collection(db, "interpretations" ), {
       interpretation_text: interpretation,
       song_id: song_id,
-      user_id: user_id,
+      user_id: user._id,
+      username: user.name,
       createdAt: new Date().toISOString(),
     });
 

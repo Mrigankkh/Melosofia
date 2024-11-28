@@ -27,21 +27,20 @@ const db = getFirestore(app);
 
 export const signUpWithEmailPassword = async (name, email, password) => {
   try {
-    // Firebase auth
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
     const user = userCredential.user;
+    
 
-    toast.success("User created successfully", user);
-    // Create new enrty for user in firestore
 
     await setDoc(doc(db, "users", user.uid), {
       name,
       email,
       createdAt: new Date().toISOString(),
+      _id: user.uid
     });
 
     return user.uid;

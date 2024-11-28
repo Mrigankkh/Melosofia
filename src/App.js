@@ -9,6 +9,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./config/firebaseConfig";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const App = () => {
   return (
     <Router>
       <div>
+        <ToastContainer />
         <AppRoutes />
       </div>
     </Router>
