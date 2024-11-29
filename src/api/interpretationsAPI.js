@@ -11,25 +11,23 @@ import {
   setDoc,
   addDoc,
   doc,
-  
+  limit,
+  orderBy,
 } from "firebase/firestore";
-import {fetchSongFromId} from './songAPI';
+import { fetchSongFromId } from "./songAPI";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const addInterpretation = async (interpretation, song_id, user) => {
-
   try {
-  
     console.log("Adding interpretation... Song id:", song_id);
-    await addDoc(collection(db, "interpretations" ), {
+    await addDoc(collection(db, "interpretations"), {
       interpretation_text: interpretation,
       song_id: song_id,
       user_id: user._id,
       username: user.name,
       createdAt: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error("Error adding interpretation:", error);
   }
@@ -75,6 +73,24 @@ const getInterpretationsForUser = async (username) => {
     console.error("Error fetching interpretations:", error);
   }
 };
+const getLatestInterpretations = async (sortOption) => {
+  const interpretationsRef = collection(db, "interpretations");
+  const sortField = sortOption === "upvotes" ? "upvotes" : "createdAt"; // Default to "createdAt"
 
+  const q = query(interpretationsRef, orderBy(sortField, "desc"), limit(20));
+  const snapshot = await getDocs(q);
+  return await Promise.all(
+    snapshot.docs.map(async (doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      song: await fetchSongFromId(doc.data().song_id),
+    }))
+  );
+};
 
-export { getInterpretationsForUser,getInterpretationsForSong, addInterpretation };
+export {
+  getInterpretationsForUser,
+  getInterpretationsForSong,
+  addInterpretation,
+  getLatestInterpretations,
+};

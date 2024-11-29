@@ -28,7 +28,16 @@ const Navbar = () => {
         </Typography>
 
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} />
-
+        <Button color="inherit">
+          <Link
+            component={RouterLink}
+            to="/explore"
+            color="inherit"
+            underline="none"
+          >
+            explore
+          </Link>
+        </Button>
         <Button color="inherit">
           <Link
             component={RouterLink}
