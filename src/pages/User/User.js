@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography, Avatar, Paper } from "@mui/material";
 import { fetchOtherUserData } from "../../api/userAPI";
 import { getInterpretationsForUser } from "../../api/interpretationsAPI";
-
+import { AuthContext } from "../../providers/AuthProvider";
 const User = () => {
     const { username } = useParams();
     const [userDetails, setUserDetails] = useState({});
     const [interpretations, setInterpretations] = useState([]);
-
+    const {currentUser} = useContext(AuthContext);
     useEffect(() => {
         const fetchUserProfile = async () => {
-            const details = await fetchOtherUserData(username);
+            const details = await fetchOtherUserData(currentUser,username);
+            console.log("User Details: ", details);
             setUserDetails(details);
             const userInterpretations = await getInterpretationsForUser(username);
             setInterpretations(userInterpretations || []);
@@ -48,16 +49,16 @@ const User = () => {
                 }}
             >
                 <Avatar
-                    src={userDetails.profilePicture || ""}
-                    alt={userDetails.name || "User"}
+                    src={userDetails?.profilePicture || ""}
+                    alt={userDetails?.name || "User"}
                     sx={{ width: 100, height: 100 }}
                 />
                 <Box>
-                    <Typography variant="h4">{userDetails.name}</Typography>
+                    <Typography variant="h4">{userDetails?.name}</Typography>
                     <Typography variant="subtitle1" color="gray">
-                        @{userDetails.username}
+                        @{userDetails?.username}
                     </Typography>
-                    <Typography variant="body1">{userDetails.bio}</Typography>
+                    <Typography variant="body1">{userDetails?.bio}</Typography>
                 </Box>
             </Box>
 

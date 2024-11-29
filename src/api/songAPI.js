@@ -40,7 +40,6 @@ const fetchSongFromId = async (id) => {
 
 const fetchSongs = async (title) => {
 
-  console.log('In song API')
   const songsRef = collection(db, "songs");
   console.log("Songs Ref", songsRef);
 

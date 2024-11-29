@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   TextField,
   Button,
@@ -16,11 +16,11 @@ import { useNavigate } from "react-router-dom";
 import { fetchUserData } from "../../api/userAPI";
 import { toast } from "react-toastify";
 import "../../App.css";
-
+import { AuthContext } from "../../providers/AuthProvider";
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { currentUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,7 +43,7 @@ const Signup = () => {
         formData.email,
         formData.password
       );
-      const user = await fetchUserData(userId);
+      const user = await fetchUserData(currentUser);
       dispatch(signup(user));
       navigate("/");
     } catch (error) {
