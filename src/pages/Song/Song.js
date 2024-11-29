@@ -79,9 +79,13 @@ const Song = () => {
                     elevation={3}
                     sx={{ padding: 2, backgroundColor: "#222" }}
                   >
-                    <Typography variant="h6" sx={{ color: "#fff" }}>
+                   
+                      <a href={`/user/${interpretation.username}`}>
+                      <Typography variant="h6" sx={{ color: "#fff" }}>
                       {interpretation.username? interpretation.username : "Anonymous"}
-                    </Typography>
+                      </Typography>
+                      </a>
+                     
                     <Typography variant="body1" sx={{ color: "#ddd" }}>
                       {interpretation.interpretation_text}
                     </Typography>

@@ -13,7 +13,7 @@ import {
   doc,
   
 } from "firebase/firestore";
-
+import {fetchSongFromId} from './songAPI';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -55,4 +55,26 @@ const getInterpretationsForSong = async (songId) => {
   }
 };
 
-export { getInterpretationsForSong, addInterpretation };
+const getInterpretationsForUser = async (username) => {
+  const interpretationsRef = collection(db, "interpretations");
+
+  const q = query(interpretationsRef, where("username", "==", username));
+
+  try {
+    const snapshot = await getDocs(q);
+    const interpretations = await Promise.all(
+      snapshot.docs.map(async (doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        song: await fetchSongFromId(doc.data().song_id),
+      }))
+    );
+    console.log("Interpretations:", interpretations);
+    return interpretations;
+  } catch (error) {
+    console.error("Error fetching interpretations:", error);
+  }
+};
+
+
+export { getInterpretationsForUser,getInterpretationsForSong, addInterpretation };

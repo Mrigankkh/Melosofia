@@ -8,11 +8,13 @@ import Signup from "../pages/Login/Signup";
 import Landing from "../pages/Landing/Landing";
 import About from "../pages/About/About";
 import ProtectedRoute from "./ProtectedRoutes";
+import User from "../pages/User/User";
 const AppRoutes = () => {
   const protectedRoutes = [
     { path: '/', component: Home },
     { path: '/s/:song_id', component: Song },
-    {path: '/about', component: About}
+    {path: '/about', component: About},
+    {path: '/user/:username', component: User}
 ];
 
   return (
