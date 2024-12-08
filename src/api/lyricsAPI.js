@@ -15,7 +15,7 @@ export const getLyrics = async (song_id) => {
     const title = song[0].title;
 
     const response = await axios.get(`${baseURL}/${artist}/${title}`);
-    console.log('Lyrics:',response.data.lyrics)
+    // console.log('Lyrics:',response.data.lyrics)
     return response.data.lyrics;
   } catch (error) {
     console.error('Error fetching lyrics:', error);

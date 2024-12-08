@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { TextField, Button, Container, Typography, Box, Link, Paper } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { signInWithEmailPassword } from '../../api/authAPI';
 import { login, loginFail } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchUserData } from '../../api/userAPI';
-
+import { AuthContext } from '../../providers/AuthProvider';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { currentUser } = useContext(AuthContext);
     const handleLogin = async (e) => {
         try {
             e.preventDefault();
-            console.log('Trying to sign in user with email: ', email); 
-            const userId = await signInWithEmailPassword(email, password);
-            const user = await fetchUserData(userId);
+            await signInWithEmailPassword(email, password);
+            const user = await fetchUserData(currentUser);
             console.log('User signed in isss: ', user);
             dispatch(login(user));
             navigate('/');

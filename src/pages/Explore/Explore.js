@@ -135,7 +135,7 @@ const Explore = () => {
                       color: "#ffffff",
                     }}
                   >
-                    {interpretation.song[0].title}
+                    {interpretation?.song[0]?.title}
                   </Typography>
 
                   {/* Date */}
@@ -159,7 +159,7 @@ const Explore = () => {
                     marginBottom: "8px",
                   }}
                 >
-                  {interpretation.song[0].artist || "Unknown Artist"}
+                  {interpretation?.song[0]?.artist || "Unknown Artist"}
                 </Typography>
 
                 {/* Interpretation Text */}

@@ -24,3 +24,9 @@ backend/.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+svcAccKey.json
+
+/backend/.env
+
+/backend/node_modules

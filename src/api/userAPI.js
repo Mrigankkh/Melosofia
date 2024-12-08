@@ -1,51 +1,43 @@
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut as fsignOut,
-} from "firebase/auth";
-import firebaseConfig from "../config/firebaseConfig";
-import {
-  getFirestore,
-  collection,
-  getDoc,
-  getDocs,
-  doc,
-  query,
-  limit,
-  where,
-} from "firebase/firestore";
+import axios from "axios";
 
-export const fetchUserData = async (userId) => {
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+
+export const fetchUserData = async (currentUser) => {
   try {
-    const userDoc = await getDoc(doc(db, "users", userId));
-    if (userDoc.exists) {
-      return userDoc.data(); // Return user data as an object
+    // const user = auth.currentUser;
+
+    if (currentUser) {
+      const idToken = await currentUser.getIdToken();
+      const userData = await axios.get("http://localhost:8000/user/info", {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      return userData.data;
     } else {
-      throw new Error("User not found");
+      console.log("No user found");
+      throw new Error("No user found");
     }
   } catch (error) {
-    throw error; // Handle errors appropriately
+    console.log(error);
   }
 };
-
 //TODO: Make this restricted!
-export const fetchOtherUserData = async (username) => {
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const usersRef = collection(db, "users");
+export const fetchOtherUserData = async (currentUser,username) => {
 
-  const q = query(usersRef, where("name", "==", username), limit(1));
-  try {
-    const snapshot = await getDocs(q);
-    const user = snapshot.docs.map((doc) => ({
-      ...doc.data(),
-    }));
-    return user[0];
-  } catch (error) {
-    console.error("Error fetching user's data:", error);
+  if (currentUser) {
+    const idToken = await currentUser.getIdToken();
+    console.log("Token is:", idToken);
+    const userDetails = await axios.get(
+      `http://localhost:8000/user/${username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      }
+    );
+    return userDetails.data;
   }
+  else
+    console.log("No user found");
 };
