@@ -8,9 +8,6 @@ import {
   getDocs,
   query,
   where,
-  setDoc,
-  addDoc,
-  doc,
   limit,
   orderBy,
 } from "firebase/firestore";
@@ -18,7 +15,7 @@ import { fetchSongFromId } from "./songAPI";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const SERVER_BASE_URL = process.env.SERVER_BASE_URL || "http://localhost:8000";
+const SERVER_BASE_URL = process.env.REACT_APP_SERVER_BASE_URL || "http://localhost:8000";
 
 const addInterpretation = async (currentUser, interpretation, song_id) => {
   try {
