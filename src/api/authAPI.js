@@ -3,7 +3,6 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signOut as fsignOut,
 } from "firebase/auth";
 import firebaseConfig from "../config/firebaseConfig";
