@@ -1,4 +1,4 @@
-import get_db from "../../db/db.js";
+import db from "../../db/db.js";
 import {
   collection,
   orderBy,
@@ -9,7 +9,6 @@ import {
 } from "firebase/firestore";
 export const getSongsByTitle = async (song_title) => {
   try {
-    const db = get_db();
     const songsRef = collection(db, "songs");
     const q = query(
       songsRef,
@@ -27,4 +26,18 @@ export const getSongsByTitle = async (song_title) => {
     console.error("Error fetching interpretations:", error);
     throw error;
   }
+};
+
+
+ export const getInterpretationsBySongId = async (song_id) => {
+
+  const interpretationsRef = db.collection("interpretations");
+  const snapshot = await interpretationsRef.where("song_id", "==", song_id).get();
+
+  return await Promise.all(
+    snapshot.docs.map(async (doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+  );
 };

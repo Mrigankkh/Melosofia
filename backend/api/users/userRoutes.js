@@ -22,4 +22,6 @@ export default function userRoutes(app) {
       res.status(500).json({ error: error.message });
     }
   });
+
+
 }

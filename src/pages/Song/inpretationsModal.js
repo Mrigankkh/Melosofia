@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Dialog,
   DialogActions,
@@ -7,23 +7,26 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import { AuthContext } from "../../providers/AuthProvider";
+
 import { useSelector } from "react-redux";
 import { addInterpretation } from "../../api/interpretationsAPI";
 const AddInterpretationModal = ({ open, onClose, song_id }) => {
   const [interpretation, setInterpretation] = useState("");
   const user = useSelector((state) => state.auth.user);
+  const { currentUser } = useContext(AuthContext);
 
   const handleSubmit = async () => {
     const user_id = user._id;
     console.log(
       "User ID: ",
-      user._id,
+      currentUser,
       "Song ID: ",
       song_id,
       "Interpretation: ",
       interpretation
     );
-    await addInterpretation(interpretation, song_id, user);
+    await addInterpretation(currentUser,interpretation, song_id);
     onClose();
   };
 

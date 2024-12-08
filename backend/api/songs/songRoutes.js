@@ -12,6 +12,17 @@ export default function songRoutes(app) {
     }
   });
 
+  app.get("/songs/:id/interpretations", getVerifiedUser, async (req, res) => {
+    try {
+      console.log("Getting interpretations for song with id:", req.params.id);
+      const songId = req.params.id;
+      const interpretations = await songDAO.getInterpretationsBySongId(songId);
+      res.json(interpretations);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   const fetchSongs = async (title) => {
 
     const songsRef = collection(db, "songs");

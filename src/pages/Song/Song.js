@@ -1,19 +1,20 @@
 import AddInterpretationModal from "./inpretationsModal";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography, Button, Paper } from "@mui/material";
 import { getInterpretationsForSong } from "../../api/interpretationsAPI";
 import { getLyrics } from "../../api/lyricsAPI";
 import Grid from "@mui/material/Grid";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Song = () => {
   const { song_id } = useParams();
 
-  console.log("Song ID: ", song_id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [interpretations, setInterpretations] = useState([]);
   const [lyrics, setLyrics] = useState("");
-
+  const {currentUser} = useContext(AuthContext)
+  console.log("Current User: ", useContext(AuthContext));
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -23,8 +24,11 @@ const Song = () => {
   };
 
   const fetchInterpretations = async () => {
-    const fetchedInterpretations = await getInterpretationsForSong(song_id);
+
+    console.log(currentUser)
+    const fetchedInterpretations = await getInterpretationsForSong(currentUser,song_id);
     setInterpretations(fetchedInterpretations || []);
+    console.log("Interpretations:", fetchedInterpretations);
   };
 
   const fetchLyrics = async () => {

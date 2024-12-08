@@ -35,21 +35,48 @@ const Signup = () => {
     });
   };
 
+  // const handleSignup = async (e) => {
+  //   try {
+  //     e.preventDefault();
+  //     const userId = await signUpWithEmailPassword(
+  //       formData.name,
+  //       formData.email,
+  //       formData.password
+  //     );
+  //     const user = await fetchUserData(currentUser);
+
+  //     console.log(user)
+  //     dispatch(signup(user));
+
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.log("Error");
+  //     toast.error(error.message, { position: "top-center" });
+  //     dispatch(signupFail(error));
+  //   }
+  // };
   const handleSignup = async (e) => {
+    e.preventDefault();
+
     try {
-      e.preventDefault();
-      const userId = await signUpWithEmailPassword(
+      // Sign up the user with Firebase Auth
+      const  user  = await signUpWithEmailPassword(
         formData.name,
         formData.email,
         formData.password
       );
-      const user = await fetchUserData(currentUser);
+
+      if (!user) throw new Error("Failed to retrieve the user after signup.");
+
+      // Wait until Firestore writes the user data and fetch it back
+
+      console.log("User is:" ,user);
       dispatch(signup(user));
       navigate("/");
     } catch (error) {
-      console.log("Error");
+      console.error("Error during signup:", error);
       toast.error(error.message, { position: "top-center" });
-      dispatch(signupFail(error));
+      dispatch(signupFail({ code: error.code, message: error.message }));
     }
   };
 

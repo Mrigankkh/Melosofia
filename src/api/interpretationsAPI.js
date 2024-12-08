@@ -1,5 +1,5 @@
 import "firebase/firestore";
-import firebase from "firebase/app";
+import axios from "axios";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "../config/firebaseConfig";
 import {
@@ -18,38 +18,72 @@ import { fetchSongFromId } from "./songAPI";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const addInterpretation = async (interpretation, song_id, user) => {
+const SERVER_BASE_URL = process.env.SERVER_BASE_URL || "http://localhost:8000";
+
+const addInterpretation = async (currentUser, interpretation, song_id) => {
   try {
-    console.log("Adding interpretation... Song id:", song_id);
-    await addDoc(collection(db, "interpretations"), {
-      interpretation_text: interpretation,
-      song_id: song_id,
-      user_id: user._id,
-      username: user.name,
-      createdAt: new Date().toISOString(),
-    });
+    if (currentUser) {
+      const idToken = await currentUser.getIdToken();
+      console.log("token in intepretations api:", idToken);
+      const userData = await axios.post(
+        `${SERVER_BASE_URL}/interpretations`,
+        {
+          interpretation,
+          song_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+
+      return userData.data;
+    } else {
+      console.log("No user found");
+      throw new Error("No user found");
+    }
   } catch (error) {
-    console.error("Error adding interpretation:", error);
+    console.log(error);
   }
+  // try {
+  //   console.log("Adding interpretation... Song id:", song_id);
+  //   await addDoc(collection(db, "interpretations"), {
+  //     interpretation_text: interpretation,
+  //     song_id: song_id,
+  //     user_id: user._id,
+  //     username: user.name,
+  //     createdAt: new Date().toISOString(),
+  //   });
+  // } catch (error) {
+  //   console.error("Error adding interpretation:", error);
+  // }
 };
 
-const getInterpretationsForSong = async (songId) => {
-  const interpretationsRef = collection(db, "interpretations");
-  console.log("Interpretations Ref", interpretationsRef);
-
-  const q = query(interpretationsRef, where("song_id", "==", "1"));
-  console.log("Query", q);
-
+const getInterpretationsForSong = async (currentUser,song_id) => {
   try {
-    const snapshot = await getDocs(q);
-    const interpretations = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    console.log("Interpretations:", interpretations);
-    return interpretations;
+
+    console.log("Current user in getInterpretationsForSong:", currentUser);
+    if (currentUser) {
+      console.log("Getting interpretations for song frontend with id:", song_id);
+      const idToken = await currentUser.getIdToken();
+      console.log("token in intepretations api:", idToken);
+      const interpretationData = await axios.get(
+        `${SERVER_BASE_URL}/songs/${song_id}/interpretations`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      console.log("Interpretation data:", interpretationData.data); 
+      return interpretationData.data;
+    } else {
+      console.log("Error in retreiving interpretations");
+      throw new Error("No user found");
+    }
   } catch (error) {
-    console.error("Error fetching interpretations:", error);
+    console.log(error);
   }
 };
 
