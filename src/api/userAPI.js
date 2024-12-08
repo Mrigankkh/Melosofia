@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const SERVER_BASE_URL = process.env.SERVER_BASE_URL || "http://localhost:8000";
 
 export const fetchUserData = async (currentUser) => {
   try {
@@ -7,7 +8,7 @@ export const fetchUserData = async (currentUser) => {
 
     if (currentUser) {
       const idToken = await currentUser.getIdToken();
-      const userData = await axios.get("http://localhost:8000/user/info", {
+      const userData = await axios.get(`${SERVER_BASE_URL}/user/info`, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },
@@ -29,7 +30,7 @@ export const fetchOtherUserData = async (currentUser,username) => {
     const idToken = await currentUser.getIdToken();
     console.log("Token is:", idToken);
     const userDetails = await axios.get(
-      `http://localhost:8000/user/${username}`,
+      `${SERVER_BASE_URL}/user/${username}`,
       {
         headers: {
           Authorization: `Bearer ${idToken}`,
