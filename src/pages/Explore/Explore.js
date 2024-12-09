@@ -11,7 +11,7 @@ import { getLatestInterpretations } from "../../api/interpretationsAPI"; // API 
 
 const Explore = () => {
   const [interpretations, setInterpretations] = useState([]);
-  const [sortOption, setSortOption] = useState("time"); // Default sort by time
+  const [sortOption, setSortOption] = useState("time"); 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +21,6 @@ const Explore = () => {
       setInterpretations(fetchedInterpretations || []);
       setLoading(false);
     };
-
     fetchInterpretations();
   }, [sortOption]);
 

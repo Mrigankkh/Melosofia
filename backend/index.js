@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("You've hit Melosofia's server!");
 });
 
 userRoutes(app);

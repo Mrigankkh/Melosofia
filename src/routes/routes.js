@@ -14,21 +14,23 @@ import Profile from "../pages/Profile/Profile";
 
 const AppRoutes = () => {
   const protectedRoutes = [
-    { path: '/', component: Home },
+    { path: '/home', component: Home },
     { path: '/s/:song_id', component: Song },
-    {path: '/about', component: About},
     {path: '/user/:username', component: User},
-    {path: '/explore', component: Explore},
     {path: '/profile', component: Profile}
 
 ];
 
   return (
+    <Layout>
+
       <Routes>
         {/* Unprotected Routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/about" element={<About />} />
 
         {/* Protected Routes */}
         {protectedRoutes.map(({ path, component: Component }) => (
@@ -38,15 +40,15 @@ const AppRoutes = () => {
                         element={
 
                             <ProtectedRoute>
-                                <Layout>
                                
                                 <Component />
-                                </Layout>
                             </ProtectedRoute>
                         } 
                     />
                 ))}
       </Routes>
+      </Layout>
+
   );
 };
 

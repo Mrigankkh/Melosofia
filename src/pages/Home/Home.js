@@ -109,7 +109,7 @@ const Home = () => {
           }}
         />
       </Box>
-      <div style={{width:'50%'}}>
+      <div id='search-results' style={{width:'50%'}}>
         {isLoading && <div>Loading...</div>}
         {!isLoading && hasSearched && songsSearchResult.length > 0 && (
           <SearchResults results={songsSearchResult} />

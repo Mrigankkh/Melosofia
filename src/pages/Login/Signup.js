@@ -72,7 +72,7 @@ const Signup = () => {
 
       console.log("User is:" ,user);
       dispatch(signup(user));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error during signup:", error);
       toast.error(error.message, { position: "top-center" });
