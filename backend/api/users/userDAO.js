@@ -34,3 +34,17 @@ export const fetchOtherUserData = async (username) => {
     throw error;
   }
 };
+
+export const updateUserById = async (user_id, userData) => {
+  try {
+    const userDocRef = db.collection("users").doc(user_id);
+    await userDocRef.update(userData);
+    const updatedUserDoc = await userDocRef.get();
+    if (updatedUserDoc.exists) {
+      return updatedUserDoc.data();
+    }
+    throw new Error("User not found after update");
+  } catch (error) {
+    throw error;
+  }
+};

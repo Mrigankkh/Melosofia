@@ -42,3 +42,26 @@ export const fetchOtherUserData = async (currentUser,username) => {
   else
     console.log("No user found");
 };
+export const updateUserData = async (currentUser, userData) => {
+  try {
+    if (currentUser) {
+      const idToken = await currentUser.getIdToken();
+      const response = await axios.put(
+        `${SERVER_BASE_URL}/user/update`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      return response.data;
+    } else {
+      console.log("No user found");
+      throw new Error("No user found");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
