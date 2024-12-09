@@ -17,7 +17,6 @@ const AddInterpretationModal = ({ open, onClose, song_id }) => {
   const { currentUser } = useContext(AuthContext);
 
   const handleSubmit = async () => {
-    const user_id = user._id;
     console.log(
       "User ID: ",
       currentUser,

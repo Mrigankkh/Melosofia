@@ -17,7 +17,6 @@ const Login = () => {
             e.preventDefault();
             await signInWithEmailPassword(email, password);
             const user = await fetchUserData(currentUser);
-            console.log('User signed in isss: ', user);
             dispatch(login(user));
             navigate('/');
         } catch (error) {
