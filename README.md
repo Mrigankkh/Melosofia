@@ -63,12 +63,7 @@ Melosofia is a full-stack application built with:
 
 The application uses Firebase Authentication. Protected routes require user authentication to access.
 
-## Contributing
-
-Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
 
 ## License
 
-© 2023 Melosofia. All rights reserved.
-
-This README provides a clear overview of the project while being concise and informative
+© 2025 Melosofia. 
