@@ -2,6 +2,10 @@
 
 Melosofia is a web application that explores the intersection of music and philosophy, allowing users to share and discover interpretations of song lyrics.
 
+
+<img width="1709" alt="image" src="https://github.com/user-attachments/assets/4b3666f8-94ca-4ba5-8834-1de3be33fac7" />
+
+
 ## Overview
 
 Melosofia is a full-stack application built with:
